@@ -1,0 +1,10 @@
+en:
+  server: Server
+  password: Password
+  rememberme: Remember Me
+  login: Log In
+  changeserv: Change Server
+  customport: Custom
+  localport: Local
+  serveravailport: UnReserved
+  title: Port Borer

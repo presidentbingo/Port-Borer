@@ -1,73 +1,65 @@
-import sshtunnel
-import appJar
+#!/usr/bin/env python
+
+"""App description goes here."""
+
+from os.path import abspath, dirname
+
 from appJar import gui
 
-app = gui()
+import i18n
+from i18n import t
 
-'''Language Translations'''
+import sshtunnel
 
-app.setTitle("Port Borer")
+APP = gui()
 
-defaultserver = "67328286-288b-4d7d-b637-3fe2ae63abf2.pub.cloud.scaleway.com"
-defaultpass = "pass"
+I18N_PATH = dirname(abspath(__file__)) + '/locale'
+i18n.load_path.append(I18N_PATH)
 
-
-serverlangentry = "Server"
-passwordlangentry = "Password"
-remembermelangentry = "Remember Me"
-loginbuttlangentry = "Log In"
-
-changeservbuttlangentry = "Change Server"
-customportbuttlangentry = "Custom"
-localportbuttlangentry = "Local"
-serveravailportbuttlangentry = "UnReserved"
+DEFAULTS = {
+    "server": "67328286-288b-4d7d-b637-3fe2ae63abf2.pub.cloud.scaleway.com",
+    "password": "pass",
+}
 
 
 def press(button):
-	if button == customportbuttlangentry:
-		app.stop()
-	if button == localportbuttlangentry:
-		app.stop()
-	if button == serveravailportbuttlangentry:
-		app.stop()
+    """Handle button presses."""
+    if button == t('label.customport'):
+        APP.stop()
+    if button == t('label.localport'):
+        APP.stop()
+    if button == t('label.serveravailport'):
+        APP.stop()
 
 
-def loginpress(button):
-	app.hide()
+def loginpress(_):
+    """Save login credentials."""
+    APP.hide()
 
-	server = app.getEntry(serverlangentry)
-	password = app.getEntry(passwordlangentry)
-	remember = app.getCheckBox(remembermelangentry)
-	print("Server:", server, "Pass:", password, "Remember:", remember)
+    server = APP.getEntry(t('label.server'))
+    password = APP.getEntry(t('label.password'))
+    remember = APP.getCheckBox(t('label.rememberme'))
+    print("Server:", server, "Pass:", password, "Remember:", remember)
 
-	app.removeAllWidgets()
-	app.disableEnter()
-	app.setResizable(canResize=True)
-	app.show()
-
-
-
+    APP.removeAllWidgets()
+    APP.disableEnter()
+    APP.setResizable(canResize=True)
+    APP.show()
 
 
-app.addLabelEntry(serverlangentry, 1, 1, 2)
-app.setEntryDefault(serverlangentry, defaultserver)
-app.addLabelSecretEntry(passwordlangentry, 2, 1, 2)
-app.addCheckBox(remembermelangentry, 3, 1)
-app.addButtons([loginbuttlangentry], loginpress, 3, 2)
-app.enableEnter(loginpress)
-app.setResizable(canResize=False)
+def main():
+    """Build the GUI and start the app."""
+    APP.setTitle(t('label.title'))
+    APP.addLabelEntry(t('label.server'), 1, 1, 2)
+    APP.setEntryDefault(t('label.server'), DEFAULTS["server"])
+    APP.addLabelSecretEntry(t('label.password'), 2, 1, 2)
+    APP.addCheckBox(t('label.rememberme'), 3, 1)
+    APP.addButtons([t('label.login')], loginpress, 3, 2)
+    APP.enableEnter(loginpress)
+    APP.setResizable(canResize=False)
 
-app.go()
-
-
-
-
-
+    APP.go()
 
 
-
-
-
-
-
-
+if __name__ == '__main__':
+    main()
