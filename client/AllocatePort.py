@@ -2,6 +2,9 @@
 
 """App description goes here."""
 
+import logging
+import traceback
+
 from os.path import abspath, dirname
 
 from appJar import gui
@@ -9,7 +12,11 @@ from appJar import gui
 import i18n
 from i18n import t
 
-import sshtunnel
+# import sshtunnel
+
+logging.basicConfig(format='[%(name)-6s] [%(levelname)-8s] %(message)s',
+                    level=logging.DEBUG)
+logger = logging.getLogger('main')
 
 APP = gui()
 
@@ -39,7 +46,9 @@ def loginpress(_):
     server = APP.getEntry(t('label.server'))
     password = APP.getEntry(t('label.password'))
     remember = APP.getCheckBox(t('label.rememberme'))
-    print("Server:", server, "Pass:", password, "Remember:", remember)
+    logger.debug(f"Server: {server} ({type(server)})")
+    # logger.debug(f"Pass: {password} ({type(password)})")
+    logger.debug(f"Remember: {remember} ({type(remember)})")
 
     APP.removeAllWidgets()
     APP.disableEnter()
@@ -49,6 +58,7 @@ def loginpress(_):
 
 def main():
     """Build the GUI and start the app."""
+    logger.debug('Setting up...')
     APP.setTitle(t('label.title'))
     APP.addLabelEntry(t('label.server'), 1, 1, 2)
     APP.setEntryDefault(t('label.server'), DEFAULTS["server"])
@@ -58,8 +68,12 @@ def main():
     APP.enableEnter(loginpress)
     APP.setResizable(canResize=False)
 
+    logger.debug('Starting GUI')
     APP.go()
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as exc:
+        logger.exception("A problem has occurred:")
