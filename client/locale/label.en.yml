@@ -1,10 +1,18 @@
 en:
-  server: Server
+  remoteconn: Remote Connection
+  localconn: Local Connection
+  title: Port Borer
+  relay: Relay
+  relays: Relays
   password: Password
+  username: Username
   rememberme: Remember Me
   login: Log In
-  changeserv: Change Server
+  changerelay: Change Relay
+  refreshrelay: Refresh Relays
   customport: Custom
-  localport: Local
-  serveravailport: UnReserved
-  title: Port Borer
+  localconnection: Local Port
+  bindlocal: Bind Local
+  remoteconnection: Remote Port
+  bindremote: Bind Remote
+  relayavailport: UnReserved
