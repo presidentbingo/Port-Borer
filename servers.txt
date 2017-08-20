@@ -1,3 +1,0 @@
-test.com
-example.com
-blahblah.com:2557
